@@ -33,12 +33,12 @@ def summarize_day(task, issue, method, result):
             return "작업 내용 없음"
         
         prompt = (
-            "다음은 하루 동안 수행한 작업입니다. 주어진 내용을 그대로 요약만 하세요. 추가 설명, 추측, 제안사항, 향후 계획 등은 절대 포함하지 마세요. 오직 주어진 사실만 간단히 정리하세요.\n\n"
+            "다음은 하루 동안 수행한 작업입니다. 주어진 내용을 그대로 요약만 하세요. 추가 설명, 추측, 제안사항, 향후 계획 등은 절대 포함하지 마세요. 오직 주어진 사실만 간단히 정리하세요. 정의한 문제, 해결방법, 결과를 중심으로 내용을 정리하세요.\n\n"
             + "\n".join(content_parts) +
             "\n\n위 내용만 사용해서 1줄로 요약하세요. 없는 내용은 절대 추가하지 마세요."
         )
         response = openai.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {"role": "system", "content": "당신은 요약 전문가입니다. 주어진 내용만 사용하세요. 추측, 제안, 향후 계획, 추가 설명은 절대 하지 마세요. 오직 주어진 사실만 요약하세요."},
                 {"role": "user", "content": prompt}
@@ -56,11 +56,12 @@ def summarize_overall(logs):
             "다음은 한 담당자의 날짜별 작업 요약입니다.\n"
             "주어진 작업 내용만을 사용해서 요약하세요. 추측, 제안사항, 향후 계획, 개선 필요사항 등은 절대 추가하지 마세요.\n"
             "불릿 포인트 형식으로 실제 수행한 작업만 간단히 정리하세요.\n\n"
+            "발표자료 제작이나, 기획등 부가적인 내용은 절대 포함하지 마세요.\n"
             "작업 요약:\n" + "\n".join(f"- {log}" for log in logs) +
             "\n\n위 내용만 사용해서 요약하세요. 없는 내용은 절대 추가하지 마세요. 최대 5줄로 요약하세요."
         )
         response = openai.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {"role": "system", "content": "당신은 요약 전문가입니다. 주어진 내용만 사용하세요. 추측, 제안, 향후 계획, 개선사항은 절대 하지 마세요. 오직 실제 수행한 작업만 요약하세요."},
                 {"role": "user", "content": prompt}

@@ -1,3 +1,4 @@
 .env
 notion_weekly_summary_*.csv
 config.py
+__pycache__/
